@@ -4,17 +4,27 @@ import Browser
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
 
+countIncreases : List Int -> Int
+countIncreases list =
+    case list of
+        _ :: tail ->
+          List.map2 (\a b -> a < b)
+            list
+            tail
+            |> List.filter (identity)
+            |> List.length
+        [] -> 0
 
 solution : List Int -> Int
 solution list =
     case list of
-        _ :: tail ->
-            List.map2 (\a b -> a < b)
-                list 
-                tail
-            |> List.filter (identity)
-            |> List.length
-        [] ->
+        _ :: ((_ :: tail2) as tail1) ->
+            List.map3 (\a b c -> a + b + c)
+                list
+                tail1
+                tail2
+              |> countIncreases
+        _ ->
             0
 
 parse : String -> List Int
